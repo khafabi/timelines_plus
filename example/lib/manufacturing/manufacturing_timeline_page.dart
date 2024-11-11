@@ -1,3 +1,4 @@
+import 'package:example/style/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 
@@ -51,7 +52,7 @@ class ManufacturingTimelinePage extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 16),
                         child: Text(
                           event.formattedDate,
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: appFonts.caption.ts,
                         ),
                       );
                     }
@@ -76,7 +77,7 @@ class ManufacturingTimelinePage extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 16),
                       child: Text(
                         event.formattedDate,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: appFonts.caption.ts,
                         textAlign: TextAlign.right,
                       ),
                     );

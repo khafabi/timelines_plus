@@ -72,9 +72,11 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
               const SizedBox(height: 4),
               Text(
                 widget.workOrder.id,
-                style: appFonts.caption.white.copyWith(
-                  color: appColors.white.withOpacity(0.7),
-                ).ts,
+                style: appFonts.caption.white
+                    .copyWith(
+                      color: appColors.white.withOpacity(0.7),
+                    )
+                    .ts,
               ),
             ],
           ),
@@ -102,32 +104,32 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
           ),
           const SizedBox(height: 12),
           ...widget.workOrder.endProducts.map((product) => Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Text(product.name, style: appFonts.text.ts),
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(product.name, style: appFonts.text.ts),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '${product.produced}/${product.quota} ${product.unit}',
+                        style: appFonts.text.ts,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: 45,
+                      child: Text(
+                        '${product.progress.toStringAsFixed(0)}%',
+                        style: appFonts.text.primary.ts,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Text(
-                    '${product.produced}/${product.quota} ${product.unit}',
-                    style: appFonts.text.ts,
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                SizedBox(
-                  width: 45,
-                  child: Text(
-                    '${product.progress.toStringAsFixed(0)}%',
-                    style: appFonts.text.primary.ts,
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-              ],
-            ),
-          )),
+              )),
         ],
       ),
     );
@@ -137,7 +139,8 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
     return Column(
       children: [
         InkWell(
-          onTap: () => setState(() => _isMaterialsExpanded = !_isMaterialsExpanded),
+          onTap: () =>
+              setState(() => _isMaterialsExpanded = !_isMaterialsExpanded),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -158,33 +161,36 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: Column(
-              children: widget.workOrder.materials.map((material) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(material.name, style: appFonts.text.ts),
-                    ),
-                    Expanded(
-                      child: Text(
-                        '${material.prepared}/${material.required} ${material.unit}',
-                        style: appFonts.text.ts,
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      width: 45,
-                      child: Text(
-                        '${material.progress.toStringAsFixed(0)}%',
-                        style: appFonts.text.primary.ts,
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
-                ),
-              )).toList(),
+              children: widget.workOrder.materials
+                  .map((material) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child:
+                                  Text(material.name, style: appFonts.text.ts),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${material.prepared}/${material.required} ${material.unit}',
+                                style: appFonts.text.ts,
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: 45,
+                              child: Text(
+                                '${material.progress.toStringAsFixed(0)}%',
+                                style: appFonts.text.primary.ts,
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
+                  .toList(),
             ),
           ),
       ],
@@ -195,7 +201,8 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
     return Column(
       children: [
         InkWell(
-          onTap: () => setState(() => _isProcessesExpanded = !_isProcessesExpanded),
+          onTap: () =>
+              setState(() => _isProcessesExpanded = !_isProcessesExpanded),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -216,48 +223,52 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: Column(
-              children: widget.workOrder.steps.map((step) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: step.isCompleted 
-                            ? appColors.success.main 
-                            : appColors.neutral.withOpacity(0.2),
-                      ),
-                      child: Center(
-                        child: Text(
-                          step.sequence.toString(),
-                          style: appFonts.caption.white.ts,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(step.name, style: appFonts.text.semibold.ts),
-                          if (step.description.isNotEmpty)
-                            Text(
-                              step.description,
-                              style: appFonts.caption.gray.ts,
+              children: widget.workOrder.steps
+                  .map((step) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: step.isCompleted
+                                    ? appColors.success.main
+                                    : appColors.neutral.withOpacity(0.2),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  step.sequence.toString(),
+                                  style: appFonts.caption.white.ts,
+                                ),
+                              ),
                             ),
-                        ],
-                      ),
-                    ),
-                    if (step.completedAt != null)
-                      Text(
-                        DateFormat('dd/MM/yyyy HH:mm').format(step.completedAt!),
-                        style: appFonts.caption.success.ts,
-                      ),
-                  ],
-                ),
-              )).toList(),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(step.name,
+                                      style: appFonts.text.semibold.ts),
+                                  if (step.description.isNotEmpty)
+                                    Text(
+                                      step.description,
+                                      style: appFonts.caption.gray.ts,
+                                    ),
+                                ],
+                              ),
+                            ),
+                            if (step.completedAt != null)
+                              Text(
+                                DateFormat('dd/MM/yyyy HH:mm')
+                                    .format(step.completedAt!),
+                                style: appFonts.caption.success.ts,
+                              ),
+                          ],
+                        ),
+                      ))
+                  .toList(),
             ),
           ),
       ],
@@ -735,6 +746,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             description: "Campur bahan sesuai resep",
             sequence: 2,
             isCompleted: true,
+            completedAt: DateTime(2024, 8, 1, 14, 45),
           ),
           ProcessStep(
             id: "PS009",
@@ -742,6 +754,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             description: "Bakar roti sesuai suhu",
             sequence: 3,
             isCompleted: true,
+            completedAt: DateTime(2024, 8, 1, 14, 45),
           ),
         ],
         completionDate: DateTime(2024, 8, 7),
@@ -758,46 +771,49 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             if (constraints.maxWidth < 600) {
               // Mobile layout
               return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    for (final status in [
-                      'scheduled',
-                      'in-process',
-                      'completed'
-                    ])
-                      Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: _getStatusColor(status),
-                              borderRadius: BorderRadius.circular(8),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      for (final status in [
+                        'scheduled',
+                        'in-process',
+                        'completed'
+                      ])
+                        Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: _getStatusColor(status),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    _getStatusIcon(status, appColors.white).icon,
+                                    size: 20,
+                                    color: appColors.white,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    _getStatusTitle(status),
+                                    style: appFonts.white.semibold.ts,
+                                  ),
+                                ],
+                              ),
                             ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  _getStatusIcon(status, appColors.white).icon,
-                                  size: 20,
-                                  color: appColors.white,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  _getStatusTitle(status),
-                                  style: appFonts.white.semibold.ts,
-                                ),
-                              ],
+                            const SizedBox(height: 16),
+                            Column(
+                              children: workOrders
+                                  .where((wo) => wo.status == status)
+                                  .map((wo) => WorkOrderHeader(workOrder: wo))
+                                  .toList(),
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          Column(
-                            children: workOrders
-                                .where((wo) => wo.status == status)
-                                .map((wo) => WorkOrderHeader(workOrder: wo))
-                                .toList(),
-                          ),
-                        ],
-                      ),
-                  ],
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               );
             } else {
@@ -831,11 +847,14 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                           const SizedBox(height: 16),
                           Expanded(
                             child: SingleChildScrollView(
-                              child: Column(
-                                children: workOrders
-                                    .where((wo) => wo.status == status)
-                                    .map((wo) => WorkOrderHeader(workOrder: wo))
-                                    .toList(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  children: workOrders
+                                      .where((wo) => wo.status == status)
+                                      .map((wo) => WorkOrderHeader(workOrder: wo))
+                                      .toList(),
+                                ),
                               ),
                             ),
                           ),
