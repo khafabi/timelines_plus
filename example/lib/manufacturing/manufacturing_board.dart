@@ -760,6 +760,69 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
         completionDate: DateTime(2024, 8, 7),
         lastUpdated: DateTime(2024, 8, 7),
       ),
+      WorkOrder(
+        id: "WO.2024.08.00004",
+        description: "Produksi Roti Tawar",
+        startDate: DateTime(2024, 8, 10),
+        estimatedEndDate: DateTime(2024, 8, 17),
+        status: "scheduled",
+        endProducts: [
+          EndProduct(
+            id: "EP004",
+            name: "Roti Tawar",
+            unit: "pcs",
+            quota: 1200,
+            produced: 0,
+          ),
+        ],
+        materials: [
+          RawMaterial(
+            id: "RM007",
+            name: "Tepung Terigu",
+            unit: "kg",
+            required: 60,
+            prepared: 0,
+          ),
+          RawMaterial(
+            id: "RM008",
+            name: "Ragi",
+            unit: "kg",
+            required: 2,
+            prepared: 0,
+          ),
+          RawMaterial(
+            id: "RM009", 
+            name: "Gula",
+            unit: "kg",
+            required: 5,
+            prepared: 0,
+          ),
+        ],
+        steps: [
+          ProcessStep(
+            id: "PS010",
+            name: "Persiapan Bahan",
+            description: "Siapkan dan timbang bahan",
+            sequence: 1,
+            isCompleted: false,
+          ),
+          ProcessStep(
+            id: "PS011",
+            name: "Pencampuran & Fermentasi",
+            description: "Campur bahan dan tunggu fermentasi",
+            sequence: 2,
+            isCompleted: false,
+          ),
+          ProcessStep(
+            id: "PS012",
+            name: "Pembakaran",
+            description: "Bakar roti sesuai suhu",
+            sequence: 3,
+            isCompleted: false,
+          ),
+        ],
+        lastUpdated: DateTime(2024, 8, 1),
+      ),
     ];
 
     return Scaffold(
