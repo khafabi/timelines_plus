@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import 'main.dart';
 import 'manufacturing/manufacturing_timeline_page.dart';
+import 'manufacturing/manufacturing_board.dart';
 import 'manufacturing_models/manufacturing_models.dart';
 
 final router = GoRouter(
@@ -32,6 +33,10 @@ final router = GoRouter(
       builder: (context, state) => ManufacturingTimelinePage(
         workOrder: SampleManufacturingData.getSampleWorkOrder(),
       ),
+    ),
+    GoRoute(
+      path: '/manufacturing_board',
+      builder: (context, state) => const ManufacturingBoard(),
     ),
     GoRoute(
       path: '/',
