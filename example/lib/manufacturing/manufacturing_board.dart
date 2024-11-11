@@ -16,8 +16,8 @@ class WorkOrderHeader extends StatefulWidget {
 }
 
 class _WorkOrderHeaderState extends State<WorkOrderHeader> {
-  bool _isMaterialsExpanded = true;
-  bool _isProcessesExpanded = true;
+  bool _isMaterialsExpanded = false;
+  bool _isProcessesExpanded = false;
 
   Color _getStatusColor(String status) {
     switch (status) {
@@ -413,175 +413,6 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
     }
   }
 
-  // Widget _buildWorkOrderCard(WorkOrder workOrder) {
-  //   return Card(
-  //     margin: const EdgeInsets.all(8),
-  //     elevation: 2,
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(12),
-  //       side: BorderSide(color: appColors.border),
-  //     ),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.stretch,
-  //       children: [
-  //         // Header
-  //         Container(
-  //           padding: const EdgeInsets.all(12),
-  //           decoration: BoxDecoration(
-  //             color: _getStatusColor(workOrder.status),
-  //             borderRadius: const BorderRadius.only(
-  //               topLeft: Radius.circular(12),
-  //               topRight: Radius.circular(12),
-  //             ),
-  //           ),
-  //           child: Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //             children: [
-  //               Text(
-  //                 workOrder.id,
-  //                 style: appFonts.subtitle.white.semibold.ts,
-  //               ),
-  //               Text(
-  //                 dateFormatter.format(workOrder.startDate),
-  //                 style: appFonts.white.ts,
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //
-  //         // Content
-  //         Padding(
-  //           padding: const EdgeInsets.all(16),
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               // Dates
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: [
-  //                   Text(
-  //                     'Tgl Mulai ${dateFormatter.format(workOrder.startDate)}',
-  //                     style: appFonts.gray.ts,
-  //                   ),
-  //                   Text(
-  //                     'Est. Selesai ${dateFormatter.format(workOrder.estimatedEndDate)}',
-  //                     style: workOrder.status == 'completed'
-  //                         ? appFonts.success.ts
-  //                         : appFonts.error.ts,
-  //                   ),
-  //                 ],
-  //               ),
-  //               const SizedBox(height: 16),
-  //
-  //               // Tasks
-  //               ...workOrder.tasks.map((task) => Column(
-  //                     children: [
-  //                       Row(
-  //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                         children: [
-  //                           Expanded(
-  //                             child: Row(
-  //                               children: [
-  //                                 Icon(
-  //                                   Icons.shopping_cart,
-  //                                   size: 16,
-  //                                   color: appColors.neutralIcon,
-  //                                 ),
-  //                                 const SizedBox(width: 8),
-  //                                 Expanded(
-  //                                   child: Text(
-  //                                     task.name,
-  //                                     style: appFonts.text.ts,
-  //                                   ),
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                           Row(
-  //                             children: [
-  //                               Text(
-  //                                 '${task.quantity} (${task.completion}%)',
-  //                                 style: appFonts.primary.semibold.ts,
-  //                               ),
-  //                               IconButton(
-  //                                 icon: Icon(
-  //                                   _expandedTasks[task.id] == true
-  //                                       ? Icons.expand_less
-  //                                       : Icons.expand_more,
-  //                                   color: appColors.primary,
-  //                                 ),
-  //                                 onPressed: () => _toggleTask(task.id),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       if (task.timestamp != null)
-  //                         Align(
-  //                           alignment: Alignment.centerLeft,
-  //                           child: Text(
-  //                             task.timestamp!,
-  //                             style: appFonts.error.caption.ts,
-  //                           ),
-  //                         ),
-  //                       if (_expandedTasks[task.id] == true)
-  //                         Padding(
-  //                           padding: const EdgeInsets.only(left: 24),
-  //                           child: Text(
-  //                             'Additional task details would go here...',
-  //                             style: appFonts.light.caption.ts,
-  //                           ),
-  //                         ),
-  //                     ],
-  //                   )),
-  //
-  //               // Completion Date
-  //               if (workOrder.completionDate != null)
-  //                 Padding(
-  //                   padding: const EdgeInsets.only(top: 16),
-  //                   child: Row(
-  //                     children: [
-  //                       Text(
-  //                         'Selesai ',
-  //                         style: appFonts.success.ts,
-  //                       ),
-  //                       Text(
-  //                         dateFormatter.format(workOrder.completionDate!),
-  //                         style: appFonts.success.semibold.ts,
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //             ],
-  //           ),
-  //         ),
-  //
-  //         // Footer
-  //         Padding(
-  //           padding: const EdgeInsets.all(16),
-  //           child: Row(
-  //             mainAxisAlignment: MainAxisAlignment.end,
-  //             children: [
-  //               TextButton.icon(
-  //                 onPressed: () {},
-  //                 icon: Text(
-  //                   'Lihat Detail',
-  //                   style: appFonts.primary.ts,
-  //                 ),
-  //                 label: Icon(
-  //                   Icons.chevron_right,
-  //                   size: 16,
-  //                   color: appColors.primary,
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final List<WorkOrder> workOrders = [
@@ -791,7 +622,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             prepared: 0,
           ),
           RawMaterial(
-            id: "RM009", 
+            id: "RM009",
             name: "Gula",
             unit: "kg",
             required: 5,
@@ -854,7 +685,8 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                               child: Row(
                                 children: [
                                   Icon(
-                                    _getStatusIcon(status, appColors.white).icon,
+                                    _getStatusIcon(status, appColors.white)
+                                        .icon,
                                     size: 20,
                                     color: appColors.white,
                                   ),
@@ -915,7 +747,8 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                                 child: Column(
                                   children: workOrders
                                       .where((wo) => wo.status == status)
-                                      .map((wo) => WorkOrderHeader(workOrder: wo))
+                                      .map((wo) =>
+                                          WorkOrderHeader(workOrder: wo))
                                       .toList(),
                                 ),
                               ),
