@@ -27,7 +27,7 @@ class ManufacturingTimelinePage extends StatelessWidget {
             WorkOrderHeader(workOrder: workOrder),
             TimelineTheme(
               data: TimelineThemeData(
-                nodePosition: 0.2,
+                nodePosition: 0.5, // Change from 0.2 to 0.5 to center the timeline
                 connectorTheme: const ConnectorThemeData(
                   color: Colors.grey,
                   thickness: 2,
@@ -44,14 +44,41 @@ class ManufacturingTimelinePage extends StatelessWidget {
                   itemCount: workOrder.events.length,
                   contentsBuilder: (context, index) {
                     final event = workOrder.events[index];
-                    // Return null for process events as they'll be shown in oppositeContents
                     if (event.type == ManufacturingEventType.processStart || 
                         event.type == ManufacturingEventType.processComplete) {
-                      return null;
+                      // Show date on the right for process events
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text(
+                          event.formattedDate,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      );
                     }
+                    // Show card on the right for non-process events
                     return Padding(
                       padding: const EdgeInsets.only(left: 16),
                       child: TimelineEventCard(event: event),
+                    );
+                  },
+                  oppositeContentsBuilder: (context, index) {
+                    final event = workOrder.events[index];
+                    if (event.type == ManufacturingEventType.processStart || 
+                        event.type == ManufacturingEventType.processComplete) {
+                      // Show process cards on the left
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: TimelineEventCard(event: event),
+                      );
+                    }
+                    // Show date on the left for non-process events
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Text(
+                        event.formattedDate,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        textAlign: TextAlign.right,
+                      ),
                     );
                   },
                   indicatorBuilder: (context, index) {
@@ -68,26 +95,6 @@ class ManufacturingTimelinePage extends StatelessWidget {
                   connectorBuilder: (context, index, type) {
                     return SolidLineConnector(
                       color: workOrder.events[index].type.color,
-                    );
-                  },
-                  oppositeContentsBuilder: (context, index) {
-                    final event = workOrder.events[index];
-                    // Show process events on the opposite side
-                    if (event.type == ManufacturingEventType.processStart || 
-                        event.type == ManufacturingEventType.processComplete) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 16),
-                        child: TimelineEventCard(event: event),
-                      );
-                    }
-                    // Show date for non-process events
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: Text(
-                        event.formattedDate,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        textAlign: TextAlign.right,
-                      ),
                     );
                   },
                 ),
