@@ -44,6 +44,11 @@ class ManufacturingTimelinePage extends StatelessWidget {
                   itemCount: workOrder.events.length,
                   contentsBuilder: (context, index) {
                     final event = workOrder.events[index];
+                    // Return null for process events as they'll be shown in oppositeContents
+                    if (event.type == ManufacturingEventType.processStart || 
+                        event.type == ManufacturingEventType.processComplete) {
+                      return null;
+                    }
                     return Padding(
                       padding: const EdgeInsets.only(left: 16),
                       child: TimelineEventCard(event: event),
@@ -67,6 +72,15 @@ class ManufacturingTimelinePage extends StatelessWidget {
                   },
                   oppositeContentsBuilder: (context, index) {
                     final event = workOrder.events[index];
+                    // Show process events on the opposite side
+                    if (event.type == ManufacturingEventType.processStart || 
+                        event.type == ManufacturingEventType.processComplete) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: TimelineEventCard(event: event),
+                      );
+                    }
+                    // Show date for non-process events
                     return Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: Text(
