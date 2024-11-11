@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:example/style/app_colors.dart';
+import 'package:example/style/app_fonts.dart';
 
 // Data Models
 class Task {
@@ -56,13 +58,13 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
   Color _getStatusColor(String status) {
     switch (status) {
       case 'scheduled':
-        return Colors.blue;
+        return appColors.info.main;
       case 'in-process':
-        return Colors.orange;
+        return appColors.warning.main;
       case 'completed':
-        return Colors.green;
+        return appColors.success.main;
       default:
-        return Colors.grey;
+        return appColors.neutral;
     }
   }
 
@@ -95,6 +97,11 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
   Widget _buildWorkOrderCard(WorkOrder workOrder) {
     return Card(
       margin: const EdgeInsets.all(8),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: appColors.border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -113,11 +120,11 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
               children: [
                 Text(
                   workOrder.id,
-                  style: const TextStyle(color: Colors.white),
+                  style: appFonts.subtitle.white.semibold.ts,
                 ),
                 Text(
                   dateFormatter.format(workOrder.startDate),
-                  style: const TextStyle(color: Colors.white),
+                  style: appFonts.white.ts,
                 ),
               ],
             ),
@@ -133,14 +140,15 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Tgl Mulai ${dateFormatter.format(workOrder.startDate)}'),
+                    Text(
+                      'Tgl Mulai ${dateFormatter.format(workOrder.startDate)}',
+                      style: appFonts.gray.ts,
+                    ),
                     Text(
                       'Est. Selesai ${dateFormatter.format(workOrder.estimatedEndDate)}',
-                      style: TextStyle(
-                        color: workOrder.status == 'completed'
-                            ? Colors.green
-                            : Colors.red,
-                      ),
+                      style: workOrder.status == 'completed' 
+                        ? appFonts.success.ts
+                        : appFonts.error.ts,
                     ),
                   ],
                 ),
@@ -148,52 +156,65 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
 
                 // Tasks
                 ...workOrder.tasks.map((task) => Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.shopping_cart, size: 16),
-                                  const SizedBox(width: 8),
-                                  Expanded(child: Text(task.name)),
-                                ],
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.shopping_cart,
+                                size: 16,
+                                color: appColors.neutralIcon,
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Text('${task.quantity} (${task.completion}%)'),
-                                IconButton(
-                                  icon: Icon(
-                                    _expandedTasks[task.id] == true
-                                        ? Icons.expand_less
-                                        : Icons.expand_more,
-                                  ),
-                                  onPressed: () => _toggleTask(task.id),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  task.name,
+                                  style: appFonts.text.ts,
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              '${task.quantity} (${task.completion}%)',
+                              style: appFonts.primary.semibold.ts,
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                _expandedTasks[task.id] == true
+                                    ? Icons.expand_less
+                                    : Icons.expand_more,
+                                color: appColors.primary,
+                              ),
+                              onPressed: () => _toggleTask(task.id),
                             ),
                           ],
                         ),
-                        if (task.timestamp != null)
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              task.timestamp!,
-                              style: const TextStyle(color: Colors.red),
-                            ),
-                          ),
-                        if (_expandedTasks[task.id] == true)
-                          const Padding(
-                            padding: EdgeInsets.only(left: 24),
-                            child: Text(
-                              'Additional task details would go here...',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
                       ],
-                    )),
+                    ),
+                    if (task.timestamp != null)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          task.timestamp!,
+                          style: appFonts.error.caption.ts,
+                        ),
+                      ),
+                    if (_expandedTasks[task.id] == true)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24),
+                        child: Text(
+                          'Additional task details would go here...',
+                          style: appFonts.light.caption.ts,
+                        ),
+                      ),
+                  ],
+                )),
 
                 // Completion Date
                 if (workOrder.completionDate != null)
@@ -201,13 +222,13 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                     padding: const EdgeInsets.only(top: 16),
                     child: Row(
                       children: [
-                        const Text(
+                        Text(
                           'Selesai ',
-                          style: TextStyle(color: Colors.green),
+                          style: appFonts.success.ts,
                         ),
                         Text(
                           dateFormatter.format(workOrder.completionDate!),
-                          style: const TextStyle(color: Colors.green),
+                          style: appFonts.success.semibold.ts,
                         ),
                       ],
                     ),
@@ -224,8 +245,15 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
               children: [
                 TextButton.icon(
                   onPressed: () {},
-                  icon: const Text('Lihat Detail'),
-                  label: const Icon(Icons.chevron_right, size: 16),
+                  icon: Text(
+                    'Lihat Detail',
+                    style: appFonts.primary.ts,
+                  ),
+                  label: Icon(
+                    Icons.chevron_right,
+                    size: 16,
+                    color: appColors.primary,
+                  ),
                 ),
               ],
             ),
@@ -342,6 +370,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
     ];
 
     return Scaffold(
+      backgroundColor: appColors.background,
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: LayoutBuilder(
@@ -362,14 +391,15 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                             ),
                             child: Row(
                               children: [
-                                _getStatusIcon(status),
+                                Icon(
+                                  _getStatusIcon(status).icon,
+                                  size: 20,
+                                  color: appColors.white,
+                                ),
                                 const SizedBox(width: 8),
                                 Text(
                                   _getStatusTitle(status),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: appFonts.white.semibold.ts,
                                 ),
                               ],
                             ),
