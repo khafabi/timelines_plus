@@ -9,9 +9,9 @@ class ManufacturingTimelinePage extends StatelessWidget {
   final WorkOrder workOrder;
 
   const ManufacturingTimelinePage({
-    Key? key,
+    super.key,
     required this.workOrder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
