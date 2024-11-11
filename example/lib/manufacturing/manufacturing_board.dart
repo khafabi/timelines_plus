@@ -20,11 +20,11 @@ class Task {
 
 class WorkOrder {
   final String id;
-  final String startDate;
-  final String estimatedEndDate;
+  final DateTime startDate;
+  final DateTime estimatedEndDate;
   final List<Task> tasks;
   final String status;
-  final String? completionDate;
+  final DateTime? completionDate;
 
   WorkOrder({
     required this.id,
@@ -45,6 +45,7 @@ class ManufacturingBoard extends StatefulWidget {
 
 class ManufacturingBoardState extends State<ManufacturingBoard> {
   final Map<String, bool> _expandedTasks = {};
+  final DateFormat dateFormatter = DateFormat('dd/MM/yyyy');
 
   void _toggleTask(String taskId) {
     setState(() {
@@ -132,9 +133,9 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Tgl Mulai ${workOrder.startDate}'),
+                    Text('Tgl Mulai ${dateFormatter.format(workOrder.startDate)}'),
                     Text(
-                      'Est. Selesai ${workOrder.estimatedEndDate}',
+                      'Est. Selesai ${dateFormatter.format(workOrder.estimatedEndDate)}',
                       style: TextStyle(
                         color: workOrder.status == 'completed'
                             ? Colors.green
@@ -239,8 +240,8 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
     final List<WorkOrder> workOrders = [
       WorkOrder(
         id: "WO.2024.08.00001",
-        startDate: "02/08/2024",
-        estimatedEndDate: "09/08/2024",
+        startDate: DateTime(2024, 8, 2),
+        estimatedEndDate: DateTime(2024, 8, 9),
         status: "scheduled",
         tasks: [
           Task(
@@ -269,12 +270,12 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             completion: 100,
           ),
         ],
-        completionDate: "03/08/2024",
+        completionDate: DateTime(2024, 8, 3),
       ),
       WorkOrder(
         id: "WO.2024.08.00002",
-        startDate: "03/08/2024",
-        estimatedEndDate: "10/08/2024",
+        startDate: DateTime(2024, 8, 3),
+        estimatedEndDate: DateTime(2024, 8, 10),
         status: "in-process",
         tasks: [
           Task(
@@ -306,8 +307,8 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
       ),
       WorkOrder(
         id: "WO.2024.08.00003",
-        startDate: "01/08/2024",
-        estimatedEndDate: "08/08/2024",
+        startDate: DateTime(2024, 8, 1),
+        estimatedEndDate: DateTime(2024, 8, 8),
         status: "completed",
         tasks: [
           Task(
@@ -336,7 +337,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             completion: 100,
           ),
         ],
-        completionDate: "07/08/2024",
+        completionDate: DateTime(2024, 8, 7),
       ),
     ];
 
