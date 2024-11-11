@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       routerConfig: router,
       title: 'Timelines Demo',
       theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData.light(),
       // onGenerateRoute: (settings) {
       //   String? path = Uri.tryParse(settings.name!)?.path;
       //   Widget child;
