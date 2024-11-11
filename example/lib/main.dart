@@ -5,6 +5,7 @@ import 'package:timelines_plus/timelines_plus.dart';
 import 'component_page.dart';
 import 'routes.dart';
 import 'manufacturing/manufacturing_timeline_page.dart';
+import 'manufacturing/manufacturing_board.dart';
 import 'manufacturing_models/manufacturing_models.dart';
 import 'showcase/package_delivery_tracking.dart';
 import 'showcase/process_timeline.dart';
@@ -171,6 +172,10 @@ class ExamplePage extends StatelessWidget {
               navigationBuilder: () => ManufacturingTimelinePage(
                 workOrder: SampleManufacturingData.getSampleWorkOrder(),
               ),
+            ),
+            _NavigationCard(
+              name: 'Manufacturing Board',
+              navigationBuilder: () => const ManufacturingBoard(),
             ),
           ],
         ),
