@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../manufacturing_models/manufacturing_models.dart';
+import '../../style/app_colors.dart';
+import '../../style/app_fonts.dart';
 
 class WorkOrderHeader extends StatelessWidget {
   final WorkOrder workOrder;
@@ -14,11 +16,15 @@ class WorkOrderHeader extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(color: appColors.border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            color: Colors.blue[600],
+            color: appColors.primary.main,
             padding: const EdgeInsets.all(16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,16 +34,14 @@ class WorkOrderHeader extends StatelessWidget {
                   children: [
                     Text(
                       'Perintah Kerja',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      style: appFonts.subtitle.semibold.white.ts,
                     ),
+                    const SizedBox(height: 4),
                     Text(
                       workOrder.id,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.white70,
-                          ),
+                      style: appFonts.caption.white.copyWith(
+                        color: appColors.white.withOpacity(0.7),
+                      ).ts,
                     ),
                   ],
                 ),
@@ -46,16 +50,14 @@ class WorkOrderHeader extends StatelessWidget {
                   children: [
                     Text(
                       'Update terakhir ${workOrder.formattedLastUpdate}',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.white70,
-                          ),
+                      style: appFonts.caption.copyWith(
+                        color: appColors.white.withOpacity(0.7),
+                      ).ts,
                     ),
+                    const SizedBox(height: 4),
                     Text(
                       'Progress ${workOrder.progressString}',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      style: appFonts.subtitle.semibold.white.ts,
                     ),
                   ],
                 ),
@@ -66,7 +68,7 @@ class WorkOrderHeader extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Text(
               workOrder.description,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: appFonts.text.ts,
             ),
           ),
         ],
