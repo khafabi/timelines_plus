@@ -3,13 +3,34 @@ import 'package:intl/intl.dart';
 import 'package:example/style/app_colors.dart';
 import 'package:example/style/app_fonts.dart';
 
-class WorkOrderHeader extends StatelessWidget {
+class WorkOrderHeader extends StatefulWidget {
   final WorkOrder workOrder;
 
   const WorkOrderHeader({
     Key? key,
     required this.workOrder,
   }) : super(key: key);
+
+  @override
+  State<WorkOrderHeader> createState() => _WorkOrderHeaderState();
+}
+
+class _WorkOrderHeaderState extends State<WorkOrderHeader> {
+  bool _isMaterialsExpanded = true;
+  bool _isProcessesExpanded = true;
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'scheduled':
+        return appColors.info.main;
+      case 'in-process':
+        return appColors.warning.main;
+      case 'completed':
+        return appColors.success.main;
+      default:
+        return appColors.neutral;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +57,7 @@ class WorkOrderHeader extends StatelessWidget {
 
   Widget _buildHeader() {
     return Container(
-      color: appColors.primary.main,
+      color: _getStatusColor(widget.workOrder.status),
       padding: const EdgeInsets.all(16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,7 +71,7 @@ class WorkOrderHeader extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                workOrder.id,
+                widget.workOrder.id,
                 style: appFonts.caption.white.copyWith(
                   color: appColors.white.withOpacity(0.7),
                 ).ts,
@@ -58,7 +79,7 @@ class WorkOrderHeader extends StatelessWidget {
             ],
           ),
           Text(
-            workOrder.status.toUpperCase(),
+            widget.workOrder.status.toUpperCase(),
             style: appFonts.caption.semibold.white.ts,
           ),
         ],
@@ -113,109 +134,133 @@ class WorkOrderHeader extends StatelessWidget {
   }
 
   Widget _buildMaterials() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.category, size: 20, color: appColors.primary),
-              const SizedBox(width: 8),
-              Text('Bahan Baku', style: appFonts.subtitle.semibold.ts),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ...workOrder.materials.map((material) => Padding(
-            padding: const EdgeInsets.only(bottom: 8),
+    return Column(
+      children: [
+        InkWell(
+          onTap: () => setState(() => _isMaterialsExpanded = !_isMaterialsExpanded),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Expanded(
-                  flex: 2,
-                  child: Text(material.name, style: appFonts.text.ts),
-                ),
-                Expanded(
-                  child: Text(
-                    '${material.prepared}/${material.required} ${material.unit}',
-                    style: appFonts.text.ts,
-                    textAlign: TextAlign.right,
-                  ),
-                ),
+                Icon(Icons.category, size: 20, color: appColors.primary),
                 const SizedBox(width: 8),
-                SizedBox(
-                  width: 45,
-                  child: Text(
-                    '${material.progress.toStringAsFixed(0)}%',
-                    style: appFonts.text.primary.ts,
-                    textAlign: TextAlign.right,
-                  ),
+                Text('Bahan Baku', style: appFonts.subtitle.semibold.ts),
+                const Spacer(),
+                Icon(
+                  _isMaterialsExpanded ? Icons.expand_less : Icons.expand_more,
+                  color: appColors.primary,
                 ),
               ],
             ),
-          )),
-        ],
-      ),
+          ),
+        ),
+        if (_isMaterialsExpanded)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              children: widget.workOrder.materials.map((material) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(material.name, style: appFonts.text.ts),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '${material.prepared}/${material.required} ${material.unit}',
+                        style: appFonts.text.ts,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: 45,
+                      child: Text(
+                        '${material.progress.toStringAsFixed(0)}%',
+                        style: appFonts.text.primary.ts,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+              )).toList(),
+            ),
+          ),
+      ],
     );
   }
 
   Widget _buildProcessSteps() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.assignment, size: 20, color: appColors.primary),
-              const SizedBox(width: 8),
-              Text('Proses', style: appFonts.subtitle.semibold.ts),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ...workOrder.steps.map((step) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
+    return Column(
+      children: [
+        InkWell(
+          onTap: () => setState(() => _isProcessesExpanded = !_isProcessesExpanded),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Container(
-                  width: 24,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: step.isCompleted 
-                        ? appColors.success.main 
-                        : appColors.neutral.withOpacity(0.2),
-                  ),
-                  child: Center(
-                    child: Text(
-                      step.sequence.toString(),
-                      style: appFonts.caption.white.ts,
-                    ),
-                  ),
+                Icon(Icons.assignment, size: 20, color: appColors.primary),
+                const SizedBox(width: 8),
+                Text('Proses', style: appFonts.subtitle.semibold.ts),
+                const Spacer(),
+                Icon(
+                  _isProcessesExpanded ? Icons.expand_less : Icons.expand_more,
+                  color: appColors.primary,
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(step.name, style: appFonts.text.semibold.ts),
-                      if (step.description.isNotEmpty)
-                        Text(
-                          step.description,
-                          style: appFonts.caption.gray.ts,
-                        ),
-                    ],
-                  ),
-                ),
-                if (step.completedAt != null)
-                  Text(
-                    DateFormat('dd/MM/yyyy HH:mm').format(step.completedAt!),
-                    style: appFonts.caption.success.ts,
-                  ),
               ],
             ),
-          )),
-        ],
-      ),
+          ),
+        ),
+        if (_isProcessesExpanded)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Column(
+              children: widget.workOrder.steps.map((step) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: step.isCompleted 
+                            ? appColors.success.main 
+                            : appColors.neutral.withOpacity(0.2),
+                      ),
+                      child: Center(
+                        child: Text(
+                          step.sequence.toString(),
+                          style: appFonts.caption.white.ts,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(step.name, style: appFonts.text.semibold.ts),
+                          if (step.description.isNotEmpty)
+                            Text(
+                              step.description,
+                              style: appFonts.caption.gray.ts,
+                            ),
+                        ],
+                      ),
+                    ),
+                    if (step.completedAt != null)
+                      Text(
+                        DateFormat('dd/MM/yyyy HH:mm').format(step.completedAt!),
+                        style: appFonts.caption.success.ts,
+                      ),
+                  ],
+                ),
+              )).toList(),
+            ),
+          ),
+      ],
     );
   }
 }
