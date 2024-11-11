@@ -81,16 +81,16 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
     }
   }
 
-  Icon _getStatusIcon(String status) {
+  Icon _getStatusIcon(String status, Color iconColor) {
     switch (status) {
       case 'scheduled':
-        return const Icon(Icons.calendar_today, size: 20);
+        return Icon(Icons.calendar_today, size: 20, color: iconColor);
       case 'in-process':
-        return const Icon(Icons.access_time, size: 20);
+        return Icon(Icons.access_time, size: 20, color: iconColor);
       case 'completed':
-        return const Icon(Icons.check_circle, size: 20);
+        return Icon(Icons.check_circle, size: 20, color: iconColor);
       default:
-        return const Icon(Icons.error, size: 20);
+        return Icon(Icons.error, size: 20, color: iconColor);
     }
   }
 
@@ -146,9 +146,9 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                     ),
                     Text(
                       'Est. Selesai ${dateFormatter.format(workOrder.estimatedEndDate)}',
-                      style: workOrder.status == 'completed' 
-                        ? appFonts.success.ts
-                        : appFonts.error.ts,
+                      style: workOrder.status == 'completed'
+                          ? appFonts.success.ts
+                          : appFonts.error.ts,
                     ),
                   ],
                 ),
@@ -156,65 +156,65 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
 
                 // Tasks
                 ...workOrder.tasks.map((task) => Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.shopping_cart,
-                                size: 16,
-                                color: appColors.neutralIcon,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  task.name,
-                                  style: appFonts.text.ts,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              '${task.quantity} (${task.completion}%)',
-                              style: appFonts.primary.semibold.ts,
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                _expandedTasks[task.id] == true
-                                    ? Icons.expand_less
-                                    : Icons.expand_more,
-                                color: appColors.primary,
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.shopping_cart,
+                                    size: 16,
+                                    color: appColors.neutralIcon,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      task.name,
+                                      style: appFonts.text.ts,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              onPressed: () => _toggleTask(task.id),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '${task.quantity} (${task.completion}%)',
+                                  style: appFonts.primary.semibold.ts,
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    _expandedTasks[task.id] == true
+                                        ? Icons.expand_less
+                                        : Icons.expand_more,
+                                    color: appColors.primary,
+                                  ),
+                                  onPressed: () => _toggleTask(task.id),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+                        if (task.timestamp != null)
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              task.timestamp!,
+                              style: appFonts.error.caption.ts,
+                            ),
+                          ),
+                        if (_expandedTasks[task.id] == true)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 24),
+                            child: Text(
+                              'Additional task details would go here...',
+                              style: appFonts.light.caption.ts,
+                            ),
+                          ),
                       ],
-                    ),
-                    if (task.timestamp != null)
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          task.timestamp!,
-                          style: appFonts.error.caption.ts,
-                        ),
-                      ),
-                    if (_expandedTasks[task.id] == true)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24),
-                        child: Text(
-                          'Additional task details would go here...',
-                          style: appFonts.light.caption.ts,
-                        ),
-                      ),
-                  ],
-                )),
+                    )),
 
                 // Completion Date
                 if (workOrder.completionDate != null)
@@ -380,7 +380,11 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    for (final status in ['scheduled', 'in-process', 'completed'])
+                    for (final status in [
+                      'scheduled',
+                      'in-process',
+                      'completed'
+                    ])
                       Column(
                         children: [
                           Container(
@@ -392,7 +396,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                             child: Row(
                               children: [
                                 Icon(
-                                  _getStatusIcon(status).icon,
+                                  _getStatusIcon(status, appColors.white).icon,
                                   size: 20,
                                   color: appColors.white,
                                 ),
@@ -427,20 +431,19 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                         children: [
                           Container(
                             padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: _getStatusColor(status),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                            // decoration: BoxDecoration(
+                            //   color: _getStatusColor(status),
+                            //   borderRadius: BorderRadius.circular(8),
+                            // ),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                _getStatusIcon(status),
-                                const SizedBox(width: 8),
+                                _getStatusIcon(status, _getStatusColor(status)),
+                                const SizedBox(width: 16),
                                 Text(
                                   _getStatusTitle(status),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: appFonts.bold.ts,
                                 ),
                               ],
                             ),
