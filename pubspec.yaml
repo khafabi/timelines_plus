@@ -1,11 +1,10 @@
 name: timelines_plus
 description: "Just updated version of Timelines package. Note: this is just updated version of this package: https://pub.dev/packages/timelines "
 version: 1.0.3
-homepage: https://github.com/sawin0/timelines_plus
+homepage:
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: ">=3.5.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,6 +13,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
 
 flutter:
+  uses-material-design: true
