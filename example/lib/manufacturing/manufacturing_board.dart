@@ -116,7 +116,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                   style: const TextStyle(color: Colors.white),
                 ),
                 Text(
-                  workOrder.startDate,
+                  dateFormatter.format(workOrder.startDate),
                   style: const TextStyle(color: Colors.white),
                 ),
               ],
@@ -206,7 +206,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                           style: TextStyle(color: Colors.green),
                         ),
                         Text(
-                          workOrder.completionDate!,
+                          dateFormatter.format(workOrder.completionDate!),
                           style: const TextStyle(color: Colors.green),
                         ),
                       ],
