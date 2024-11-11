@@ -101,7 +101,7 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
             ],
           ),
           const SizedBox(height: 12),
-          ...workOrder.endProducts.map((product) => Padding(
+          ...widget.workOrder.endProducts.map((product) => Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Row(
               children: [
