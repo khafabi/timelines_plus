@@ -462,6 +462,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             description: "Campur bahan sesuai resep",
             sequence: 2,
             isCompleted: true,
+            completedAt: DateTime(2024, 8, 2, 10, 30),
           ),
           ProcessStep(
             id: "PS003",
@@ -469,6 +470,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             description: "Bakar cake sesuai suhu",
             sequence: 3,
             isCompleted: true,
+            completedAt: DateTime(2024, 8, 2, 13, 45),
           ),
         ],
         completionDate: DateTime(2024, 8, 3),
@@ -520,6 +522,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             description: "Campur bahan sesuai resep",
             sequence: 2,
             isCompleted: true,
+            completedAt: DateTime(2024, 8, 3, 11, 15),
           ),
           ProcessStep(
             id: "PS006",
