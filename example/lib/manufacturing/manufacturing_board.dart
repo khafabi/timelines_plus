@@ -82,23 +82,35 @@ class _WorkOrderCardState extends State<WorkOrderCard> {
           ),
           const SizedBox(height: 8),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Start: ',
-                style: appFonts.caption.white.ts,
-              ),
-              Text(
-                DateFormat('dd/MM/yyyy').format(widget.workOrder.startDate),
-                style: appFonts.caption.white.ts,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Tanggal Mulai:',
+                    style: appFonts.caption.white.ts,
+                  ),
+                  Text(
+                    DateFormat('dd/MM/yyyy').format(widget.workOrder.startDate),
+                    style: appFonts.caption.bold.white.ts,
+                  ),
+                ],
               ),
               const SizedBox(width: 16),
-              Text(
-                'ETA: ',
-                style: appFonts.caption.white.ts,
-              ),
-              Text(
-                DateFormat('dd/MM/yyyy').format(widget.workOrder.estimatedEndDate),
-                style: appFonts.caption.white.ts,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Estimasi Tanggal Selesai:',
+                    style: appFonts.caption.white.ts,
+                  ),
+                  Text(
+                    DateFormat('dd/MM/yyyy')
+                        .format(widget.workOrder.estimatedEndDate),
+                    style: appFonts.caption.white.bold.ts,
+                  ),
+                ],
               ),
             ],
           ),
@@ -768,8 +780,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                                 child: Column(
                                   children: workOrders
                                       .where((wo) => wo.status == status)
-                                      .map((wo) =>
-                                          WorkOrderCard(workOrder: wo))
+                                      .map((wo) => WorkOrderCard(workOrder: wo))
                                       .toList(),
                                 ),
                               ),
