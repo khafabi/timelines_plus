@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../style/app_colors.dart';
-import '../../../style/app_fonts.dart';
-import '../../models/work_order.dart';
+import 'package:example/style/app_colors.dart';
+import 'package:example/style/app_fonts.dart';
+
+import '../../manufacturing_models/manufacturing_timeline_models.dart';
 
 class WorkOrderHeader extends StatelessWidget {
   final WorkOrder workOrder;
@@ -12,8 +13,10 @@ class WorkOrderHeader extends StatelessWidget {
     required this.workOrder,
   }) : super(key: key);
 
-  String get formattedLastUpdate => 
-    DateFormat('dd/MM/yyyy HH:mm').format(workOrder.lastUpdated);
+  String get formattedLastUpdate =>
+      DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
+
+  // DateFormat('dd/MM/yyyy HH:mm').format(workOrder.lastUpdated);
 
   String get progressString {
     // Implement a simple progress calculation
@@ -39,9 +42,11 @@ class WorkOrderHeader extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 workOrder.id,
-                style: appFonts.caption.white.copyWith(
-                  color: appColors.white.withOpacity(0.7),
-                ).ts,
+                style: appFonts.caption.white
+                    .copyWith(
+                      color: appColors.white.withOpacity(0.7),
+                    )
+                    .ts,
               ),
             ],
           ),
@@ -50,9 +55,11 @@ class WorkOrderHeader extends StatelessWidget {
             children: [
               Text(
                 'Update terakhir $formattedLastUpdate',
-                style: appFonts.caption.copyWith(
-                  color: appColors.white.withOpacity(0.7),
-                ).ts,
+                style: appFonts.caption
+                    .copyWith(
+                      color: appColors.white.withOpacity(0.7),
+                    )
+                    .ts,
               ),
               const SizedBox(height: 4),
               Text(

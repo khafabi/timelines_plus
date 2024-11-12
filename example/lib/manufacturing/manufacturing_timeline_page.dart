@@ -2,7 +2,7 @@ import 'package:example/style/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:timelines_plus/timelines_plus.dart';
 
-import '../manufacturing_models/manufacturing_models.dart';
+import '../manufacturing_models/manufacturing_timeline_models.dart';
 import 'widgets/work_order_header.dart';
 import 'widgets/timeline_event_card.dart';
 

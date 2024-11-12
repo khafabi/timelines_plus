@@ -1,11 +1,11 @@
+import 'package:example/manufacturing/widgets/work_order_materials.dart';
+import 'package:example/manufacturing/widgets/work_order_processes.dart';
 import 'package:flutter/material.dart';
 import '../../../style/app_colors.dart';
 import '../../models/work_order.dart';
 import '../../utils/status_helper.dart';
 import 'work_order_header.dart';
 import 'work_order_products.dart';
-import 'work_order_materials.dart';
-import 'work_order_processes.dart';
 
 class WorkOrderCard extends StatelessWidget {
   final WorkOrder workOrder;
