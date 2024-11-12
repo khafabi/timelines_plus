@@ -3,19 +3,19 @@ import 'package:intl/intl.dart';
 import 'package:example/style/app_colors.dart';
 import 'package:example/style/app_fonts.dart';
 
-class WorkOrderHeader extends StatefulWidget {
+class WorkOrderCard extends StatefulWidget {
   final WorkOrder workOrder;
 
-  const WorkOrderHeader({
-    Key? key,
+  const WorkOrderCard({
+    super.key,
     required this.workOrder,
-  }) : super(key: key);
+  });
 
   @override
-  State<WorkOrderHeader> createState() => _WorkOrderHeaderState();
+  State<WorkOrderCard> createState() => _WorkOrderCardState();
 }
 
-class _WorkOrderHeaderState extends State<WorkOrderHeader> {
+class _WorkOrderCardState extends State<WorkOrderCard> {
   bool _isMaterialsExpanded = false;
   bool _isProcessesExpanded = false;
 
@@ -66,17 +66,8 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Perintah Kerja',
-                style: appFonts.subtitle.semibold.white.ts,
-              ),
-              const SizedBox(height: 4),
-              Text(
                 widget.workOrder.id,
-                style: appFonts.caption.white
-                    .copyWith(
-                      color: appColors.white.withOpacity(0.7),
-                    )
-                    .ts,
+                style: appFonts.subtitle.semibold.white.ts,
               ),
             ],
           ),
@@ -114,7 +105,7 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
                     Expanded(
                       child: Text(
                         '${product.produced}/${product.quota} ${product.unit}',
-                        style: appFonts.text.ts,
+                        style: appFonts.text.caption.bold.ts,
                         textAlign: TextAlign.right,
                       ),
                     ),
@@ -123,7 +114,7 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
                       width: 45,
                       child: Text(
                         '${product.progress.toStringAsFixed(0)}%',
-                        style: appFonts.text.primary.ts,
+                        style: appFonts.text.primary.caption.bold.ts,
                         textAlign: TextAlign.right,
                       ),
                     ),
@@ -174,7 +165,7 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
                             Expanded(
                               child: Text(
                                 '${material.prepared}/${material.required} ${material.unit}',
-                                style: appFonts.text.ts,
+                                style: appFonts.text.caption.bold.ts,
                                 textAlign: TextAlign.right,
                               ),
                             ),
@@ -183,7 +174,7 @@ class _WorkOrderHeaderState extends State<WorkOrderHeader> {
                               width: 45,
                               child: Text(
                                 '${material.progress.toStringAsFixed(0)}%',
-                                style: appFonts.text.primary.ts,
+                                style: appFonts.text.primary.caption.bold.ts,
                                 textAlign: TextAlign.right,
                               ),
                             ),
@@ -497,7 +488,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
             name: "Tepung",
             unit: "kg",
             required: 40,
-            prepared: 40,
+            prepared: 26.8,
           ),
           RawMaterial(
             id: "RM004",
@@ -705,7 +696,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                             Column(
                               children: workOrders
                                   .where((wo) => wo.status == status)
-                                  .map((wo) => WorkOrderHeader(workOrder: wo))
+                                  .map((wo) => WorkOrderCard(workOrder: wo))
                                   .toList(),
                             ),
                           ],
@@ -751,7 +742,7 @@ class ManufacturingBoardState extends State<ManufacturingBoard> {
                                   children: workOrders
                                       .where((wo) => wo.status == status)
                                       .map((wo) =>
-                                          WorkOrderHeader(workOrder: wo))
+                                          WorkOrderCard(workOrder: wo))
                                       .toList(),
                                 ),
                               ),
