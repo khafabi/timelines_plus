@@ -7,15 +7,15 @@ class WorkOrderMaterials extends StatefulWidget {
   final List<RawMaterial> materials;
 
   const WorkOrderMaterials({
-    Key? key,
+    super.key,
     required this.materials,
-  }) : super(key: key);
+  });
 
   @override
-  _WorkOrderMaterialsState createState() => _WorkOrderMaterialsState();
+  WorkOrderMaterialsState createState() => WorkOrderMaterialsState();
 }
 
-class _WorkOrderMaterialsState extends State<WorkOrderMaterials> {
+class WorkOrderMaterialsState extends State<WorkOrderMaterials> {
   bool _isMaterialsExpanded = false;
 
   @override
