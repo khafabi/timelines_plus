@@ -4,6 +4,7 @@ import '../../style/app_colors.dart';
 import '../../style/app_fonts.dart';
 import '../models/process_step.dart';
 import '../models/raw_material.dart';
+import '../models/end_product.dart';
 
 class WorkOrderProcesses extends StatelessWidget {
   final List<ProcessStep> steps;
@@ -73,72 +74,115 @@ class WorkOrderProcesses extends StatelessWidget {
                   'Selesai: ${DateFormat('dd/MM/yyyy HH:mm').format(step.completedAt!)}',
                   style: appFonts.caption.success.ts,
                 ),
-              const SizedBox(height: 8),
-              LinearProgressIndicator(
-                value: step.progressPercentage / 100,
-                backgroundColor: appColors.neutral.withOpacity(0.2),
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  step.isCompleted ? appColors.success.main : appColors.primary,
-                ),
-              ),
+              const SizedBox(height: 16),
+              
               if (step.materials.isNotEmpty) ...[
-                const Divider(height: 24),
                 Text('Bahan Baku', style: appFonts.text.semibold.ts),
                 const SizedBox(height: 8),
-                ...step.materials.map((material) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(material.name, style: appFonts.text.ts),
-                          Text(
-                            '${material.prepared}/${material.required} ${material.unit}',
-                            style: appFonts.caption.gray.ts,
-                          ),
-                          LinearProgressIndicator(
-                            value: material.progress / 100,
-                            backgroundColor: appColors.neutral.withOpacity(0.2),
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              material.progress >= 100
-                                  ? appColors.success.main
-                                  : appColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
+                _buildMaterialsTable(step.materials),
+                const SizedBox(height: 16),
               ],
+              
               if (step.products.isNotEmpty) ...[
-                const Divider(height: 24),
                 Text('Hasil Produksi', style: appFonts.text.semibold.ts),
                 const SizedBox(height: 8),
-                ...step.products.map((product) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(product.name, style: appFonts.text.ts),
-                          Text(
-                            '${product.produced}/${product.quota} ${product.unit}',
-                            style: appFonts.caption.gray.ts,
-                          ),
-                          LinearProgressIndicator(
-                            value: product.progress / 100,
-                            backgroundColor: appColors.neutral.withOpacity(0.2),
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              product.progress >= 100
-                                  ? appColors.success.main
-                                  : appColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
+                _buildProductsTable(step.products),
               ],
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildMaterialsTable(List<RawMaterial> materials) {
+    return Table(
+      border: TableBorder.all(
+        color: appColors.neutral.withOpacity(0.2),
+        width: 1,
+      ),
+      columnWidths: const {
+        0: FlexColumnWidth(2),
+        1: FlexColumnWidth(1),
+        2: FlexColumnWidth(1),
+        3: FlexColumnWidth(1),
+      },
+      children: [
+        TableRow(
+          decoration: BoxDecoration(
+            color: appColors.neutral.withOpacity(0.1),
+          ),
+          children: [
+            _buildTableCell('Nama', isHeader: true),
+            _buildTableCell('Target', isHeader: true),
+            _buildTableCell('Aktual', isHeader: true),
+            _buildTableCell('Progress', isHeader: true),
+          ],
+        ),
+        ...materials.map((material) => TableRow(
+          children: [
+            _buildTableCell(material.name),
+            _buildTableCell('${material.required} ${material.unit}'),
+            _buildTableCell('${material.prepared} ${material.unit}'),
+            _buildTableCell(
+              '${material.progress.toStringAsFixed(1)}%',
+              textColor: material.progress >= 100 ? appColors.success.main : null,
+            ),
+          ],
+        )),
+      ],
+    );
+  }
+
+  Widget _buildProductsTable(List<EndProduct> products) {
+    return Table(
+      border: TableBorder.all(
+        color: appColors.neutral.withOpacity(0.2),
+        width: 1,
+      ),
+      columnWidths: const {
+        0: FlexColumnWidth(2),
+        1: FlexColumnWidth(1),
+        2: FlexColumnWidth(1),
+        3: FlexColumnWidth(1),
+      },
+      children: [
+        TableRow(
+          decoration: BoxDecoration(
+            color: appColors.neutral.withOpacity(0.1),
+          ),
+          children: [
+            _buildTableCell('Nama', isHeader: true),
+            _buildTableCell('Target', isHeader: true),
+            _buildTableCell('Aktual', isHeader: true),
+            _buildTableCell('Progress', isHeader: true),
+          ],
+        ),
+        ...products.map((product) => TableRow(
+          children: [
+            _buildTableCell(product.name),
+            _buildTableCell('${product.quota} ${product.unit}'),
+            _buildTableCell('${product.produced} ${product.unit}'),
+            _buildTableCell(
+              '${product.progress.toStringAsFixed(1)}%',
+              textColor: product.progress >= 100 ? appColors.success.main : null,
+            ),
+          ],
+        )),
+      ],
+    );
+  }
+
+  Widget _buildTableCell(String text, {bool isHeader = false, Color? textColor}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+      child: Text(
+        text,
+        style: (isHeader ? appFonts.caption.semibold : appFonts.caption)
+            .copyWith(color: textColor)
+            .ts,
+        textAlign: isHeader ? TextAlign.center : TextAlign.right,
+      ),
     );
   }
 }
