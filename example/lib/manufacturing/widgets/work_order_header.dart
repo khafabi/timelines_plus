@@ -9,9 +9,9 @@ class WorkOrderHeader extends StatelessWidget {
   final WorkOrder workOrder;
 
   const WorkOrderHeader({
-    Key? key,
+    super.key,
     required this.workOrder,
-  }) : super(key: key);
+  });
 
   String get formattedLastUpdate =>
       DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());

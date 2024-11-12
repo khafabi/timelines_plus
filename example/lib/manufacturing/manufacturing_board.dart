@@ -10,6 +10,9 @@ class ManufacturingBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appColors.background,
+      appBar: AppBar(
+        title: const Text('Manufacturing'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: LayoutBuilder(
