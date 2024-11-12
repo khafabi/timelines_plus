@@ -1,59 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:example/style/app_colors.dart';
-import 'package:example/style/app_fonts.dart';
+import 'data/mock_work_orders.dart';
+import 'widgets/board/board_layout.dart';
+import 'style/app_colors.dart';
 
-class WorkOrderCard extends StatefulWidget {
-  final WorkOrder workOrder;
-
-  const WorkOrderCard({
-    super.key,
-    required this.workOrder,
-  });
-
-  @override
-  State<WorkOrderCard> createState() => _WorkOrderCardState();
-}
-
-class _WorkOrderCardState extends State<WorkOrderCard> {
-  bool _isMaterialsExpanded = false;
-  bool _isProcessesExpanded = false;
-
-  Color _getStatusColor(String status) {
-    switch (status) {
-      case 'scheduled':
-        return appColors.info.main;
-      case 'in-process':
-        return appColors.warning.main;
-      case 'completed':
-        return appColors.success.main;
-      default:
-        return appColors.neutral;
-    }
-  }
+class ManufacturingBoard extends StatelessWidget {
+  const ManufacturingBoard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: appColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildHeader(),
-          _buildEndProducts(),
-          const Divider(height: 1),
-          _buildMaterials(),
-          const Divider(height: 1),
-          _buildProcessSteps(),
-        ],
+    return Scaffold(
+      backgroundColor: appColors.background,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return BoardLayout(
+              workOrders: mockWorkOrders,
+              isMobile: constraints.maxWidth < 600,
+            );
+          },
+        ),
       ),
     );
   }
+}
 
   Widget _buildHeader() {
     return Container(
