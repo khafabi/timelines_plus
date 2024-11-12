@@ -32,7 +32,7 @@ class _WorkOrderProcessesState extends State<WorkOrderProcesses> {
               children: [
                 Icon(Icons.assignment, size: 20, color: appColors.primary),
                 const SizedBox(width: 8),
-                Text('Proses', style: appFonts.subtitle.semibold.ts),
+                Text('Tahapan', style: appFonts.subtitle.semibold.ts),
                 const Spacer(),
                 Icon(
                   _isProcessesExpanded ? Icons.expand_less : Icons.expand_more,
