@@ -48,14 +48,14 @@ class ManufacturingEvent {
 }
 
 /// Model representing a work order
-class WorkOrder {
+class WorkOrderTimeLine {
   final String id;
   final DateTime lastUpdate;
   final double progress;
   final String description;
   final List<ManufacturingEvent> events;
 
-  const WorkOrder({
+  const WorkOrderTimeLine({
     required this.id,
     required this.lastUpdate,
     required this.progress,
@@ -74,8 +74,8 @@ class WorkOrder {
 
 /// Sample data generator for testing
 class SampleManufacturingData {
-  static WorkOrder getSampleWorkOrder() {
-    return WorkOrder(
+  static WorkOrderTimeLine getSampleWorkOrder() {
+    return WorkOrderTimeLine(
       id: 'WO.2024.08.00001',
       lastUpdate: DateTime(2024, 8, 17),
       progress: 1.0,

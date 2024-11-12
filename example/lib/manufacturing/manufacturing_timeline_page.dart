@@ -7,7 +7,7 @@ import 'widgets/work_order_header.dart';
 import 'widgets/timeline_event_card.dart';
 
 class ManufacturingTimelinePage extends StatelessWidget {
-  final WorkOrder workOrder;
+  final WorkOrderTimeLine workOrder;
 
   const ManufacturingTimelinePage({
     super.key,
@@ -25,7 +25,7 @@ class ManufacturingTimelinePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            WorkOrderHeader(workOrder: workOrder),
+            WorkOrderHeaderTimeline(workOrder: workOrder),
             TimelineTheme(
               data: TimelineThemeData(
                 nodePosition: 0.5, // Change from 0.2 to 0.5 to center the timeline

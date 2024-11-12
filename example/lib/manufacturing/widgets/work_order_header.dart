@@ -5,10 +5,10 @@ import 'package:example/style/app_fonts.dart';
 
 import '../../manufacturing_models/manufacturing_timeline_models.dart';
 
-class WorkOrderHeader extends StatelessWidget {
-  final WorkOrder workOrder;
+class WorkOrderHeaderTimeline extends StatelessWidget {
+  final WorkOrderTimeLine workOrder;
 
-  const WorkOrderHeader({
+  const WorkOrderHeaderTimeline({
     super.key,
     required this.workOrder,
   });
