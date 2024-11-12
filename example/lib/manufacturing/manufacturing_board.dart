@@ -81,9 +81,26 @@ class _WorkOrderCardState extends State<WorkOrderCard> {
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            '${DateFormat('dd/MM/yyyy').format(widget.workOrder.startDate)} - ${DateFormat('dd/MM/yyyy').format(widget.workOrder.estimatedEndDate)}',
-            style: appFonts.caption.white.ts,
+          Row(
+            children: [
+              Text(
+                'Start: ',
+                style: appFonts.caption.white.ts,
+              ),
+              Text(
+                DateFormat('dd/MM/yyyy').format(widget.workOrder.startDate),
+                style: appFonts.caption.white.ts,
+              ),
+              const SizedBox(width: 16),
+              Text(
+                'ETA: ',
+                style: appFonts.caption.white.ts,
+              ),
+              Text(
+                DateFormat('dd/MM/yyyy').format(widget.workOrder.estimatedEndDate),
+                style: appFonts.caption.white.ts,
+              ),
+            ],
           ),
         ],
       ),
