@@ -1,10 +1,9 @@
-import 'package:example/manufacturing/models/end_product.dart';
-import 'package:example/manufacturing/models/process_step.dart';
-import 'package:example/manufacturing/models/raw_material.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:example/style/app_colors.dart';
-import 'package:example/style/app_fonts.dart';
+import '../../style/app_colors.dart';
+import '../../style/app_fonts.dart';
+import '../models/process_step.dart';
+import '../models/raw_material.dart';
 
 class WorkOrderProcesses extends StatelessWidget {
   final List<ProcessStep> steps;
@@ -41,98 +40,105 @@ class WorkOrderProcesses extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(step.name, style: appFonts.text.semibold.ts),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      title: Row(
         children: [
-          if (step.description.isNotEmpty)
-            Text(step.description, style: appFonts.caption.gray.ts),
-          Text(
-            'Mulai: ${DateFormat('dd/MM/yyyy HH:mm').format(step.startDate)}',
-            style: appFonts.caption.gray.ts,
-          ),
-          if (step.completedAt != null)
-            Text(
-              'Selesai: ${DateFormat('dd/MM/yyyy HH:mm').format(step.completedAt!)}',
-              style: appFonts.caption.success.ts,
-            ),
-          LinearProgressIndicator(
-            value: step.progressPercentage / 100,
-            backgroundColor: appColors.neutral.withOpacity(0.2),
-            valueColor: AlwaysStoppedAnimation<Color>(
-              step.isCompleted ? appColors.success.main : appColors.primary,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(step.name, style: appFonts.text.semibold.ts),
+                if (step.description.isNotEmpty)
+                  Text(step.description, style: appFonts.caption.gray.ts),
+              ],
             ),
           ),
           Text(
-            'Progress: ${step.progressPercentage.toStringAsFixed(1)}%',
+            '${step.progressPercentage.toStringAsFixed(1)}%',
             style: appFonts.caption.gray.ts,
           ),
         ],
       ),
       children: [
-        if (step.materials.isNotEmpty) _buildMaterialsList(step.materials),
-        if (step.products.isNotEmpty) _buildProductsList(step.products),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Mulai: ${DateFormat('dd/MM/yyyy HH:mm').format(step.startDate)}',
+                style: appFonts.caption.gray.ts,
+              ),
+              if (step.completedAt != null)
+                Text(
+                  'Selesai: ${DateFormat('dd/MM/yyyy HH:mm').format(step.completedAt!)}',
+                  style: appFonts.caption.success.ts,
+                ),
+              const SizedBox(height: 8),
+              LinearProgressIndicator(
+                value: step.progressPercentage / 100,
+                backgroundColor: appColors.neutral.withOpacity(0.2),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  step.isCompleted ? appColors.success.main : appColors.primary,
+                ),
+              ),
+              if (step.materials.isNotEmpty) ...[
+                const Divider(height: 24),
+                Text('Bahan Baku', style: appFonts.text.semibold.ts),
+                const SizedBox(height: 8),
+                ...step.materials.map((material) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(material.name, style: appFonts.text.ts),
+                          Text(
+                            '${material.prepared}/${material.required} ${material.unit}',
+                            style: appFonts.caption.gray.ts,
+                          ),
+                          LinearProgressIndicator(
+                            value: material.progress / 100,
+                            backgroundColor: appColors.neutral.withOpacity(0.2),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              material.progress >= 100
+                                  ? appColors.success.main
+                                  : appColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+              ],
+              if (step.products.isNotEmpty) ...[
+                const Divider(height: 24),
+                Text('Hasil Produksi', style: appFonts.text.semibold.ts),
+                const SizedBox(height: 8),
+                ...step.products.map((product) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(product.name, style: appFonts.text.ts),
+                          Text(
+                            '${product.produced}/${product.quota} ${product.unit}',
+                            style: appFonts.caption.gray.ts,
+                          ),
+                          LinearProgressIndicator(
+                            value: product.progress / 100,
+                            backgroundColor: appColors.neutral.withOpacity(0.2),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              product.progress >= 100
+                                  ? appColors.success.main
+                                  : appColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+              ],
+            ],
+          ),
+        ),
       ],
-    );
-  }
-
-  Widget _buildMaterialsList(List<RawMaterial> materials) {
-    return ExpansionTile(
-      title: Text('Bahan Baku', style: appFonts.text.semibold.ts),
-      children: materials.map((material) {
-        return ListTile(
-          dense: true,
-          title: Text(material.name, style: appFonts.text.ts),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${material.prepared}/${material.required} ${material.unit}',
-                style: appFonts.caption.gray.ts,
-              ),
-              LinearProgressIndicator(
-                value: material.progress / 100,
-                backgroundColor: appColors.neutral.withOpacity(0.2),
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  material.progress >= 100
-                      ? appColors.success.main
-                      : appColors.primary,
-                ),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _buildProductsList(List<EndProduct> products) {
-    return ExpansionTile(
-      title: Text('Hasil Produksi', style: appFonts.text.semibold.ts),
-      children: products.map((product) {
-        return ListTile(
-          dense: true,
-          title: Text(product.name, style: appFonts.text.ts),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${product.produced}/${product.quota} ${product.unit}',
-                style: appFonts.caption.gray.ts,
-              ),
-              LinearProgressIndicator(
-                value: product.progress / 100,
-                backgroundColor: appColors.neutral.withOpacity(0.2),
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  product.progress >= 100
-                      ? appColors.success.main
-                      : appColors.primary,
-                ),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
     );
   }
 }
