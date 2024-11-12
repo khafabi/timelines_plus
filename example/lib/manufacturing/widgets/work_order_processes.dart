@@ -18,6 +18,12 @@ class WorkOrderProcesses extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       leading: Icon(Icons.assignment, size: 20, color: appColors.primary),
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: appColors.neutral.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
       title: Text('Tahapan', style: appFonts.subtitle.semibold.ts),
       children: steps.map((step) => _buildProcessStep(step)).toList(),
     );
@@ -25,6 +31,12 @@ class WorkOrderProcesses extends StatelessWidget {
 
   Widget _buildProcessStep(ProcessStep step) {
     return ExpansionTile(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: appColors.neutral.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
       leading: Container(
         width: 24,
         height: 24,
@@ -75,14 +87,12 @@ class WorkOrderProcesses extends StatelessWidget {
                   style: appFonts.caption.success.ts,
                 ),
               const SizedBox(height: 16),
-              
               if (step.materials.isNotEmpty) ...[
                 Text('Bahan Baku', style: appFonts.text.semibold.ts),
                 const SizedBox(height: 8),
                 _buildMaterialsTable(step.materials),
                 const SizedBox(height: 16),
               ],
-              
               if (step.products.isNotEmpty) ...[
                 Text('Hasil Produksi', style: appFonts.text.semibold.ts),
                 const SizedBox(height: 8),
@@ -120,16 +130,17 @@ class WorkOrderProcesses extends StatelessWidget {
           ],
         ),
         ...materials.map((material) => TableRow(
-          children: [
-            _buildTableCell(material.name),
-            _buildTableCell('${material.required} ${material.unit}'),
-            _buildTableCell('${material.prepared} ${material.unit}'),
-            _buildTableCell(
-              '${material.progress.toStringAsFixed(1)}%',
-              textColor: material.progress >= 100 ? appColors.success.main : null,
-            ),
-          ],
-        )),
+              children: [
+                _buildTableCell(material.name),
+                _buildTableCell('${material.required} ${material.unit}'),
+                _buildTableCell('${material.prepared} ${material.unit}'),
+                _buildTableCell(
+                  '${material.progress.toStringAsFixed(1)}%',
+                  textColor:
+                      material.progress >= 100 ? appColors.success.main : null,
+                ),
+              ],
+            )),
       ],
     );
   }
@@ -159,21 +170,23 @@ class WorkOrderProcesses extends StatelessWidget {
           ],
         ),
         ...products.map((product) => TableRow(
-          children: [
-            _buildTableCell(product.name),
-            _buildTableCell('${product.quota} ${product.unit}'),
-            _buildTableCell('${product.produced} ${product.unit}'),
-            _buildTableCell(
-              '${product.progress.toStringAsFixed(1)}%',
-              textColor: product.progress >= 100 ? appColors.success.main : null,
-            ),
-          ],
-        )),
+              children: [
+                _buildTableCell(product.name),
+                _buildTableCell('${product.quota} ${product.unit}'),
+                _buildTableCell('${product.produced} ${product.unit}'),
+                _buildTableCell(
+                  '${product.progress.toStringAsFixed(1)}%',
+                  textColor:
+                      product.progress >= 100 ? appColors.success.main : null,
+                ),
+              ],
+            )),
       ],
     );
   }
 
-  Widget _buildTableCell(String text, {bool isHeader = false, Color? textColor}) {
+  Widget _buildTableCell(String text,
+      {bool isHeader = false, Color? textColor}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       child: Text(
