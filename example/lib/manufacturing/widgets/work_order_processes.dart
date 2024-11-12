@@ -1,18 +1,18 @@
+import 'package:example/manufacturing/models/end_product.dart';
+import 'package:example/manufacturing/models/process_step.dart';
+import 'package:example/manufacturing/models/raw_material.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../style/app_colors.dart';
-import '../../style/app_fonts.dart';
-import '../../models/process_step.dart';
-import '../../models/raw_material.dart';
-import '../../models/end_product.dart';
+import 'package:example/style/app_colors.dart';
+import 'package:example/style/app_fonts.dart';
 
 class WorkOrderProcesses extends StatelessWidget {
   final List<ProcessStep> steps;
 
   const WorkOrderProcesses({
-    Key? key,
+    super.key,
     required this.steps,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
