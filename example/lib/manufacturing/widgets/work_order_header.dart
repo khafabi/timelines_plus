@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:example/style/app_colors.dart';
 import 'package:example/style/app_fonts.dart';
 
-import '../../manufacturing_models/manufacturing_timeline_models.dart';
+import '../models/manufacturing_timeline_models.dart';
 
 class WorkOrderHeaderTimeline extends StatelessWidget {
   final WorkOrderTimeLine workOrder;

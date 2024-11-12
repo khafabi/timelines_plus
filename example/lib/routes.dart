@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'main.dart';
 import 'manufacturing/manufacturing_timeline_page.dart';
 import 'manufacturing/manufacturing_board.dart';
-import 'manufacturing_models/manufacturing_timeline_models.dart';
+import 'manufacturing/models/manufacturing_timeline_models.dart';
 
 final router = GoRouter(
   routes: [
