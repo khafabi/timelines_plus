@@ -59,21 +59,31 @@ class _WorkOrderCardState extends State<WorkOrderCard> {
     return Container(
       color: _getStatusColor(widget.workOrder.status),
       padding: const EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.workOrder.id,
+                    style: appFonts.subtitle.semibold.white.ts,
+                  ),
+                ],
+              ),
               Text(
-                widget.workOrder.id,
-                style: appFonts.subtitle.semibold.white.ts,
+                widget.workOrder.status.toUpperCase(),
+                style: appFonts.caption.semibold.white.ts,
               ),
             ],
           ),
+          const SizedBox(height: 8),
           Text(
-            widget.workOrder.status.toUpperCase(),
-            style: appFonts.caption.semibold.white.ts,
+            '${DateFormat('dd/MM/yyyy').format(widget.workOrder.startDate)} - ${DateFormat('dd/MM/yyyy').format(widget.workOrder.estimatedEndDate)}',
+            style: appFonts.caption.white.ts,
           ),
         ],
       ),
