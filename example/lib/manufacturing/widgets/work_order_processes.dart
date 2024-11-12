@@ -77,14 +77,26 @@ class WorkOrderProcesses extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Mulai: ${DateFormat('dd/MM/yyyy HH:mm').format(step.startDate)}',
-                style: appFonts.caption.gray.ts,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Mulai', style: appFonts.caption.gray.ts),
+                  Text(
+                    DateFormat('dd/MM/yyyy HH:mm').format(step.startDate),
+                    style: appFonts.caption.gray.ts,
+                  ),
+                ],
               ),
               if (step.completedAt != null)
-                Text(
-                  'Selesai: ${DateFormat('dd/MM/yyyy HH:mm').format(step.completedAt!)}',
-                  style: appFonts.caption.success.ts,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Selesai', style: appFonts.caption.success.ts),
+                    Text(
+                      DateFormat('dd/MM/yyyy HH:mm').format(step.completedAt!),
+                      style: appFonts.caption.success.ts,
+                    ),
+                  ],
                 ),
               const SizedBox(height: 16),
               if (step.materials.isNotEmpty) ...[
